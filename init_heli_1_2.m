@@ -25,3 +25,8 @@ l_p = 0.175; % distance pitch axis to motor [m]
 m_c = 1.92; % Counterweight mass [kg]
 m_p = 0.65; % Motor mass [kg]
 
+%%%%%%%%%% K computed gains
+k_f = 1; %intrinsic motor gain
+k1 = k_f / 2*m_p*l_p;
+k2 = (k_f * l_h )/ ((m_c * l_c^2) + (2*m_p*l_h^2));
+k3 = (g*((m_c*l_c)-(2*m_p*l_h)))/((m_c*l_c^2) + (2*m_p*(l_h^2 + l_p^2)));
