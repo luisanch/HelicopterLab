@@ -18,7 +18,7 @@ k_pd = 2*xi*om_n / k1;
 sys = tf([k1*k_pp],[1 k1*k_pd k1*k_pp]);
 
 %Plots 
-% in order to retieve kpp and kpd, do: print(b.Value) print(c.Value)
+% in order to retieve kpp and kpd, do: disp(b.Value) disp(c.Value)
 f = figure;
 ax = axes('Parent',f,'position',[0.13 0.39  0.77 0.54]);
 h = stepplot(ax,sys);
