@@ -18,9 +18,9 @@ Joystick_gain_y = -10;
 
 Elevation_offset = 295;
 
-
-k_pp = 3;
-k_pd = 1;
+% global k_pp k_pd k1
+% k_pp = 3;
+% k_pd = 1;
 
 
 %%%%%%%%%%% Physical constants
