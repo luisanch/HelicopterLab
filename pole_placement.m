@@ -3,10 +3,10 @@ clc
 clearvars
 init_heli_1_2
 
-syms k_pp k_pd s xi 
+%syms k_pp k_pd s xi 
 
 %Natural frequency
-om_n = pi;
+om_n = 4*pi;
 
 %Damping Ratio
 xi = 1; 
@@ -42,8 +42,9 @@ cl2 = uicontrol('Parent',f,'Style','text','Position',[500,90,23,23],...
                 'String','4 pi','BackgroundColor',bgcolor);
 cl3 = uicontrol('Parent',f,'Style','text','Position',[240,67,100,23],...
                 'String','Natural Frequency','BackgroundColor',bgcolor);
-
-c.Callback = @(ces,ced) updateSystem(h,tf([k1*((c.Value)^2 / k1)],[1 k1*(2*b.Value*(c.Value) / k1) k1*((c.Value)^2 / k1)])); 
+%c.Value is kpp
+%b.value is kpd
+c.Callback = @(ces,ced) updateSystem(h,tf([k1*((c.Value)^2 / k1)],[1 k1*(2*b.Value*(c.Value) / k1) k1*((c.Value)^2 / k1)]));
 b.Callback = @(ces,ced) updateSystem(h,tf([k1*((c.Value)^2 / k1)],[1 k1*(2*b.Value*(c.Value) / k1) k1*((c.Value)^2 / k1)]));
 
 

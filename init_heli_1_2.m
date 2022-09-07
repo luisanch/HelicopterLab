@@ -13,8 +13,14 @@
 
 %%%%%%%%%%% Calibration of the encoder and the hardware for the specific
 %%%%%%%%%%% helicopter
-Joystick_gain_x = 1;
-Joystick_gain_y = -1;
+Joystick_gain_x = pi/2;
+Joystick_gain_y = -10;
+
+Elevation_offset = 295;
+
+
+k_pp = 3;
+k_pd = 1;
 
 
 %%%%%%%%%%% Physical constants
@@ -25,8 +31,17 @@ l_p = 0.175; % distance pitch axis to motor [m]
 m_c = 1.92; % Counterweight mass [kg]
 m_p = 0.65; % Motor mass [kg]
 
+%%%%%%%%%% Experimental VAriables 
+vs0 = 5.7;
+k_vd = -0.108; %gain for vd is -0,108
+k_f = (g*(m_c*l_c - 2*m_p*l_h))/(l_h*vs0); %intrinsic motor gain
+
 %%%%%%%%%% K computed gains
-k_f = 1; %intrinsic motor gain
 k1 = k_f / 2*m_p*l_p;
 k2 = (k_f * l_h )/ ((m_c * l_c^2) + (2*m_p*l_h^2));
 k3 = (g*((m_c*l_c)-(2*m_p*l_h)))/((m_c*l_c^2) + (2*m_p*(l_h^2 + l_p^2)));
+
+
+
+
+
