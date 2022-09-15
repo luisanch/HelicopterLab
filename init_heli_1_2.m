@@ -13,15 +13,10 @@
 
 %%%%%%%%%%% Calibration of the encoder and the hardware for the specific
 %%%%%%%%%%% helicopter
-Joystick_gain_x = pi/2;
-Joystick_gain_y = -10;
+Joystick_gain_x = pi;
+Joystick_gain_y = -pi;
 
 Elevation_offset = 295;
-
-global k1
-% k_pp = 3;
-% k_pd = 1;
-
 
 %%%%%%%%%%% Physical constants
 g = 9.81; % gravitational constant [m/s^2]
@@ -34,14 +29,31 @@ m_p = 0.65; % Motor mass [kg]
 %%%%%%%%%% Experimental VAriables 
 vs0 = 5.7;
 k_vd = -0.108; %gain for vd is -0,108
-k_f = (g*(m_c*l_c - 2*m_p*l_h))/(l_h*vs0); %intrinsic motor gain
+k_f = (-g*(m_c*l_c - 2*m_p*l_h))/(l_h*vs0); %intrinsic motor gain
 
 %%%%%%%%%% K computed gains
-k1 = k_f / 2*m_p*l_p;
+k1 = k_f / (2*m_p*l_p);
 k2 = (k_f * l_h )/ ((m_c * l_c^2) + (2*m_p*l_h^2));
 k3 = (g*((m_c*l_c)-(2*m_p*l_h)))/((m_c*l_c^2) + (2*m_p*(l_h^2 + l_p^2)));
 
+% Smart changes
+w0 = 2;
+zeta = 5;
 
+k_pp = (w0)^2/k1;
+k_pd = 2*zeta*w0/k1;
+% k_pd = 2*zeta*sqrt(k_pp/k1);
+%%%%
+%k_pp = 3;
+%k_pd = 2;
+
+% sys = tf([k1*k_pp],[1 k1*k_pd k1*k_pp]);
+% polynomial=[1 k1*k_pd k1*k_pp];
+% root=roots(polynomial);
+% rlocus(sys)
+
+
+plot(ans(1,:),ans(6,:))
 
 
 
