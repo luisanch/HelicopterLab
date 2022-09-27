@@ -1,4 +1,0 @@
-syms cp sp ce se vf vb a b
-
-te2 = [0,0,1,0;-sp,cp,0,-a; -cp, -sp, 0 , 0; 0,0,0,1];
-t21 = [0,1,0,0;-se,0,-ce,-b;-ce,0,se,0]
