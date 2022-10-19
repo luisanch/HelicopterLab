@@ -1,3 +1,4 @@
+clear all
 % FOR HELICOPTER NR 1-2
 % This file contains the initialization for the helicopter assignment in
 % the course TTK4115. Run this file before you execute QuaRC_ -> Build 
@@ -52,8 +53,36 @@ k_pd = 2*zeta*w0/k1;
 % root=roots(polynomial);
 % rlocus(sys)
 
+% plot(ans(1,:),ans(4,:))
 
-plot(ans(1,:),ans(6,:))
+%% Task 2.2.1 - State space formulation
+A = [0 1 0; 0 0 0; 0 0 0];
+B = [0 0; 0 k1; k2 0];
+C = [1 0 0; 0 0 1];
+D = 0;
+
+system = ss(A, B, C, D);
+
+%% Task 2.2.3
+Q = [100 0 0; % Penalize p
+    0 100 0;  % penalize pdot
+    0 0 1];   % penalize edot
+R = [0.1 0;   % Pitch control -- Lower values gives higher power output
+    0 0.1];   % Elevation speed
+
+K = lqr(A,B,Q,R); 
+F = inv(C*inv(B*K-A)*B);
+
+%% Task 2.2.5 - Integral action
+
+A_I = [0 1 0 0 0; 0 0 0 0 0; 0 0 0 0 0; -1 0 0 0 0; 0 0 -1 0 0];
+B_I = [0 0; 0 k1; k2 0; 0 0; 0 0];
+C_I = [1 0 0 0 0; 0 0 1 0 0];
+G_I = [0,0;0,0;0,0;1,0;0,1];
+
+Q_I = diag([100, 100, 1, 10, 10]);
+R_I = diag([1, 10]);
+K_I = lqr(A_I,B_I,Q_I,R_I);  
 
 
 

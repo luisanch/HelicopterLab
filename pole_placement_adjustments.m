@@ -3,16 +3,15 @@ clc
 clearvars
 init_heli_1_2_adjustments
 
-%syms k_pp k_pd s xi 
-
 %Natural frequency
-om_n = 4*pi;
+om_n = pi;
 
 %Damping Ratio
 xi = 1; 
 %Resulting k_pp k_pd
+global k_pp k_pd c b h bl4 cl4 k1
 k_pp = om_n^2 / k1;
-k_pd = 2*xi*sqrt(k1*k_pp) / k1;
+k_pd = 2*xi*sqrt(k_pp/ k1) ;
 
 %Tranfer function
 sys = tf([k1*k_pp],[1 k1*k_pd k1*k_pp]);
@@ -33,18 +32,30 @@ bl2 = uicontrol('Parent',f,'Style','text','Position',[500,44,23,23],...
                 'String','2','BackgroundColor',bgcolor);
 bl3 = uicontrol('Parent',f,'Style','text','Position',[240,15,100,23],...
                 'String','Damping Ratio','BackgroundColor',bgcolor);
+bl4 = uicontrol('Parent',f,'Style','text','Position',[340,15,100,23],...
+                'String',xi,'BackgroundColor',bgcolor);
 
 c = uicontrol('Parent',f,'Style','slider','Position',[81,90,419,23],...
-              'value',om_n, 'min',0, 'max',4*pi); 
+              'value',om_n, 'min',0, 'max',pi); 
 cl1 = uicontrol('Parent',f,'Style','text','Position',[50,90,23,23],...
                 'String','0','BackgroundColor',bgcolor);
 cl2 = uicontrol('Parent',f,'Style','text','Position',[500,90,23,23],...
                 'String','4 pi','BackgroundColor',bgcolor);
 cl3 = uicontrol('Parent',f,'Style','text','Position',[240,67,100,23],...
                 'String','Natural Frequency','BackgroundColor',bgcolor);
+cl4 = uicontrol('Parent',f,'Style','text','Position',[340,67,100,23],...
+                'String',om_n,'BackgroundColor',bgcolor);
 %c.Value is kpp
 %b.value is kpd
-c.Callback = @(ces,ced) updateSystem(h,tf([k1*((c.Value)^2 / k1)],[1 k1*(2*b.Value*(c.Value) / k1) k1*((c.Value)^2 / k1)]));
-b.Callback = @(ces,ced) updateSystem(h,tf([k1*((c.Value)^2 / k1)],[1 k1*(2*b.Value*(c.Value) / k1) k1*((c.Value)^2 / k1)]));
+c.Callback = @myCallback;
+b.Callback = @myCallback;
 
+function a = myCallback(elem,event)
+global k_pp k_pd c b k1 h bl4 cl4
+k_pp = (c.Value)^2 / k1;
+k_pd = 2*(b.Value)*(sqrt(k_pp/k1));
+cl4.String = c.Value;
+bl4.String = b.Value;
 
+updateSystem(h,tf([k1*k_pp],[1 k1*k_pd k1*k_pp]));
+end
