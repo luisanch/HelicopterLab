@@ -1,7 +1,7 @@
 close all
 clc
 clearvars
-init_heli_1_2_adjustments
+init_heli_1_2
 
 %Natural frequency
 om_n = pi;
